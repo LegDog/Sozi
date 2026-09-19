@@ -309,6 +309,20 @@ export class Frame {
              */
             this.notes = "";
 
+            /** The URL of an HTML document displayed in place of this frame.
+             *
+             * @default
+             * @type {string}
+             */
+            this.htmlSource = "";
+
+            /** Reload the embedded HTML document whenever this frame is entered?
+             *
+             * @default false
+             * @type {boolean}
+             */
+            this.htmlReloadOnEnter = false;
+
             /** The duration of this frame, in milliseconds.
              *
              * @default
@@ -363,6 +377,8 @@ export class Frame {
         this.title                = other.title;
         this.titleLevel           = other.titleLevel;
         this.notes                = other.notes;
+        this.htmlSource           = other.htmlSource;
+        this.htmlReloadOnEnter    = other.htmlReloadOnEnter;
         this.timeoutMs            = other.timeoutMs;
         this.timeoutEnable        = other.timeoutEnable;
         this.transitionDurationMs = other.transitionDurationMs;
@@ -402,6 +418,8 @@ export class Frame {
             title               : this.title,
             titleLevel          : this.titleLevel,
             notes               : this.notes,
+            htmlSource          : this.htmlSource,
+            htmlReloadOnEnter   : this.htmlReloadOnEnter,
             timeoutMs           : this.timeoutMs,
             timeoutEnable       : this.timeoutEnable,
             transitionDurationMs: this.transitionDurationMs,
@@ -438,6 +456,8 @@ export class Frame {
             title: this.title,
             titleLevel: this.titleLevel,
             notes: this.notes,
+            htmlSource: this.htmlSource,
+            htmlReloadOnEnter: this.htmlReloadOnEnter,
             timeoutMs: this.timeoutMs,
             timeoutEnable: this.timeoutEnable,
             transitionDurationMs: this.transitionDurationMs,
@@ -457,6 +477,8 @@ export class Frame {
         copyIfSet(this, storable, "title");
         copyIfSet(this, storable, "titleLevel");
         copyIfSet(this, storable, "notes");
+        copyIfSet(this, storable, "htmlSource");
+        copyIfSet(this, storable, "htmlReloadOnEnter");
         copyIfSet(this, storable, "timeoutMs");
         copyIfSet(this, storable, "timeoutEnable");
         copyIfSet(this, storable, "transitionDurationMs");

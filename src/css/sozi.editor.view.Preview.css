@@ -22,6 +22,23 @@
     cursor: default;
 }
 
+#sozi-editor-view-preview .sozi-html-frame-badge {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 10;
+    max-width: calc(100% - 1.5rem);
+    padding: 0.4rem 0.7rem;
+    overflow: hidden;
+    color: white;
+    background: rgba(34, 34, 34, 0.85);
+    border-radius: 0.3rem;
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
 #sozi-editor-view-preview p,
 #sozi-editor-view-preview ul {
     margin: 2rem;

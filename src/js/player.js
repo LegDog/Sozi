@@ -14,6 +14,7 @@ import * as FrameList from "./player/FrameList";
 import * as FrameNumber from "./player/FrameNumber";
 import * as FrameURL from "./player/FrameURL";
 import * as TouchGestures from "./player/TouchGestures";
+import {EmbeddedHTML} from "./player/EmbeddedHTML";
 
 /** Identifies the current player to be in presenter mode.
  *
@@ -41,6 +42,7 @@ function setPresenterMode(mainWindow, isCurrent) {
     isPresenterMode = true;
     sozi.player.disableMedia();
     sozi.player.pause();
+    sozi.htmlFrames.setNavigationEnabled(false);
 
     sozi.presentation.enableMouseTranslation =
     sozi.presentation.enableMouseNavigation =
@@ -165,6 +167,8 @@ window.addEventListener("load", () => {
     const playerController = new PlayerController(player);
     playerController.onLoad();
 
+    const htmlFrames = new EmbeddedHTML(player, playerController);
+
     Media.init(player);
     FrameList.init(player, playerController);
     FrameNumber.init(player);
@@ -183,6 +187,9 @@ window.addEventListener("load", () => {
         },
         get playerController() {
             return playerController
+        },
+        get htmlFrames() {
+            return htmlFrames;
         }
     };
 

@@ -44,6 +44,13 @@ const DEFAULT_TIMING_FUNCTION = "ease";
  * @event module:player/Player.stateChange
  */
 
+/** Signals that the player is about to leave the current frame.
+ *
+ * The event argument is the target frame, or `null` when leaving frame mode.
+ *
+ * @event module:player/Player.frameTransitionStart
+ */
+
 /** Sozi presentation player.
  *
  * @extends EventEmitter
@@ -319,6 +326,7 @@ export class Player extends EventEmitter {
         }
 
         this.targetFrame = this.findFrame(frame);
+        this.emit("frameTransitionStart", this.targetFrame);
 
         let layerProperties = null;
         let durationMs = DEFAULT_TRANSITION_DURATION_MS;
@@ -386,6 +394,7 @@ export class Player extends EventEmitter {
      */
     previewFrame(frame) {
         this.targetFrame = this.findFrame(frame);
+        this.emit("frameTransitionStart", this.targetFrame);
 
         for (let camera of this.viewport.cameras) {
             this.setupTransition(camera);
@@ -396,6 +405,7 @@ export class Player extends EventEmitter {
 
     viewAll() {
         this.pause();
+        this.emit("frameTransitionStart", null);
 
         for (let camera of this.viewport.cameras) {
             this.transitions.push({

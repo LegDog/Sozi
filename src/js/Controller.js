@@ -420,6 +420,25 @@ export class Controller extends EventEmitter {
         );
     }
 
+    /** Set the embedded HTML source from a local file selected by the user.
+     *
+     * @param {string} filePath - The selected HTML file path.
+     */
+    setHTMLSourceFromFile(filePath) {
+        this.setFrameProperty("htmlSource", this.storage.toRelativePath(filePath));
+    }
+
+    /** Open the current frame's embedded HTML source in a separate window. */
+    previewHTMLSource() {
+        const frame = this.selection.currentFrame;
+        if (frame && (frame.htmlSource || "").trim()) {
+            const source = this.storage.resolveHTMLSource(frame.htmlSource.trim());
+            if (source) {
+                window.open(source, "_blank");
+            }
+        }
+    }
+
     /** Remove a custom stylesheet or script from the current presentation.
      *
      * This action supports undo and redo.

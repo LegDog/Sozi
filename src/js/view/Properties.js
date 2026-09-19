@@ -223,6 +223,40 @@ export class Properties extends VirtualDOMView {
             h("label", {for: "field-frameId"}, _("Id")),
             this.renderTextField("frameId", false, controller.getFrameProperty, controller.setFrameProperty, false),
 
+            h("h1", [_("Embedded HTML"), this.renderHelp(_("The page fills this frame in the generated presentation. Only embed content you trust. Sites may prevent iframe embedding."))]),
+
+            h("label.side-by-side", {for: "field-htmlSource"}, [
+                _("HTML file or URL"),
+                h("span.btn-group", [
+                    h("button", {
+                        title: _("Choose a local HTML file"),
+                        onclick() {
+                            document.querySelector(".properties input.embedded-html-file").dispatchEvent(new MouseEvent("click"));
+                        }
+                    }, h("i.fa.fa-folder-open")),
+                    h("button", {
+                        title: _("Open the embedded page in a new window"),
+                        disabled: !controller.getFrameProperty("htmlSource").some(value => (value || "").trim()),
+                        onclick() { controller.previewHTMLSource(); }
+                    }, h("i.fa.fa-external-link"))
+                ])
+            ]),
+            this.renderTextField("htmlSource", false, controller.getFrameProperty, controller.setFrameProperty, true),
+            h("input.embedded-html-file", {
+                type: "file",
+                accept: "text/html,.html,.htm",
+                style: "display:none",
+                onchange(evt) {
+                    if (evt.target.files.length && evt.target.files[0].path) {
+                        controller.setHTMLSourceFromFile(evt.target.files[0].path);
+                    }
+                }
+            }),
+            h("label.side-by-side", [
+                _("Reload whenever the frame is entered"),
+                this.renderToggleField(h("i.fa.fa-refresh"), _("Reload embedded HTML on each visit"), "htmlReloadOnEnter", controller.getFrameProperty, controller.setFrameProperty)
+            ]),
+
             h("label.side-by-side", {for: "field-timeoutMs"}, [
                 _("Timeout (seconds)"),
                 this.renderToggleField(h("i.fa.fa-clock-o"), _("Timeout enable"), "timeoutEnable", controller.getFrameProperty, controller.setFrameProperty)

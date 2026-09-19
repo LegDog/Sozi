@@ -410,7 +410,21 @@ export class Storage {
      */
     toRelativePath(filePath) {
         const svgLoc = this.backend.getLocation(this.svgFileDescriptor);
-        return path.relative(svgLoc, filePath);
+        return path.relative(svgLoc, filePath).split(path.sep).join("/");
+    }
+
+    /** Resolve an embedded HTML source for previewing in the editor.
+     *
+     * @param {string} source - A relative path or URL.
+     * @returns {string} - An absolute URL.
+     */
+    resolveHTMLSource(source) {
+        const svgLoc = this.backend.getLocation(this.svgFileDescriptor);
+        const base = /^[a-z][a-z0-9+.-]*:/i.test(svgLoc) ?
+            svgLoc.replace(/\/?$/, "/") :
+            `file://${svgLoc.replace(/\\/g, "/")}/`;
+        const url = new URL(source, base);
+        return ["file:", "http:", "https:"].indexOf(url.protocol) >= 0 ? url.href : null;
     }
 
     /** Read custom files to include in the presentation HTML.

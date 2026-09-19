@@ -119,6 +119,29 @@ export class Preview {
         if (this.viewport.ready) {
             this.viewport.repaint();
         }
+
+        this.repaintHTMLFrameBadge();
+    }
+
+    /** Show a non-interactive indication when the current frame embeds HTML. */
+    repaintHTMLFrameBadge() {
+        let badge = this.container.querySelector(".sozi-html-frame-badge");
+        const frame = this.selection.currentFrame;
+        const source = frame ? (frame.htmlSource || "").trim() : "";
+
+        if (!source) {
+            if (badge) {
+                badge.parentNode.removeChild(badge);
+            }
+            return;
+        }
+
+        if (!badge) {
+            badge = document.createElement("div");
+            badge.className = "sozi-html-frame-badge";
+            this.container.appendChild(badge);
+        }
+        badge.textContent = source;
     }
 
     /** Choose an outline element on an Alt+click event in this preview area.

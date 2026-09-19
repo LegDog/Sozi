@@ -6,7 +6,7 @@
 
 import {ipcRenderer} from "electron";
 
-ipcRenderer.on("initializeExporter", (evt, {callerId, frameIndex}) => {
+ipcRenderer.on("initializeExporter", async (evt, {callerId, frameIndex}) => {
     if (sozi.player.disableMedia) {
         sozi.player.disableMedia();
     }
@@ -14,11 +14,13 @@ ipcRenderer.on("initializeExporter", (evt, {callerId, frameIndex}) => {
     document.querySelector(".sozi-blank-screen").style.display = "none";
 
     sozi.player.jumpToFrame(frameIndex);
+    await sozi.htmlFrames.whenCurrentFrameReady();
     ipcRenderer.sendTo(callerId, "jumpToFrame.done", frameIndex);
 });
 
-ipcRenderer.on("jumpToFrame", (evt, {callerId, frameIndex}) => {
+ipcRenderer.on("jumpToFrame", async (evt, {callerId, frameIndex}) => {
     sozi.player.jumpToFrame(frameIndex);
+    await sozi.htmlFrames.whenCurrentFrameReady();
     ipcRenderer.sendTo(callerId, "jumpToFrame.done", frameIndex);
 });
 
@@ -30,6 +32,7 @@ function ipcMessage(name) {
 
 ipcRenderer.on("moveToNext", async (evt, {callerId, timeStepMs}) => {
     sozi.player.targetFrame = sozi.player.nextFrame;
+    sozi.player.emit("frameTransitionStart", sozi.player.targetFrame);
 
     const layerProperties      = sozi.player.targetFrame.layerProperties;
     const transitionDurationMs = sozi.player.targetFrame.transitionDurationMs;
@@ -47,5 +50,6 @@ ipcRenderer.on("moveToNext", async (evt, {callerId, timeStepMs}) => {
     }
 
     sozi.player.jumpToFrame(targetFrameIndex);
+    await sozi.htmlFrames.whenCurrentFrameReady();
     ipcRenderer.sendTo(callerId, "jumpToFrame.done", targetFrameIndex);
 });
