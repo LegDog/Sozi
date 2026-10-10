@@ -419,6 +419,15 @@ function electronLinuxPackageTask() {
     });
 }
 
+function electronLinuxDirectoryTask() {
+    return builder.build({
+        targets: builder.Platform.LINUX.createTarget("dir"),
+        config: builderOpts
+    });
+}
+
+exports.linuxDirectory = series(electronBuildTask, electronLinuxDirectoryTask);
+
 function electronWindowsPackageTask() {
     return builder.build({
         targets: builder.Platform.WINDOWS.createTarget(),

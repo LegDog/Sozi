@@ -70,6 +70,19 @@ Download and unzip the FFMPEG executables to the following folders:
 Build
 -----
 
+To build an installable RPM on Fedora or another RPM-based Linux system:
+
+```sh
+sudo dnf install nodejs npm rpm-build
+make deps
+make rpm
+sudo dnf install ./build/dist/*.rpm
+```
+
+The RPM includes the Electron runtime and adds Sozi to the application menu.
+Packages are written to `build/dist/`. `make rpm` builds for the host architecture.
+Use `make lint` to run both source linters.
+
 To build and run the desktop application without packaging it,
 run the following commands from the root of the source tree.
 At startup, Sozi will show an error notification that can be ignored.

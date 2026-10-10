@@ -1,6 +1,7 @@
 *~
 node_modules
 build
+.rpmbuild/
 dist
 deb
 cache

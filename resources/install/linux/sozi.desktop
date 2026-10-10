@@ -2,8 +2,9 @@
 Name=Sozi
 Comment=A zooming presentation editor and player
 Exec=sozi %f
-Icon=sozi.png
+Icon=sozi
 Terminal=false
 Type=Application
-MimeType=image/svg+xml
+MimeType=image/svg+xml;
+Categories=Graphics;Office;
 StartupNotify=false
